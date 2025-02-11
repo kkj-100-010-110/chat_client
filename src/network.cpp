@@ -29,7 +29,7 @@ void Network::receive_message(int server_fd)
     }
     else if (ret_recv == 0)
     {
-        std::cerr << "Server closed the connection.\n";
+        std::cerr << "SERVER CLOSED THE CONNECTION.\n";
         exit(1);
     }
     else if (errno == EWOULDBLOCK || errno == EAGAIN)
@@ -38,6 +38,6 @@ void Network::receive_message(int server_fd)
     }
     else
     {
-        std::cerr << "Error receiving data: " << strerror(errno) << std::endl;
+        std::cerr << "ERROR RECEIVING DATA: " << strerror(errno) << std::endl;
     }
 }

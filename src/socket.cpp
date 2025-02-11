@@ -7,7 +7,7 @@ Socket::~Socket()
     if (fd != -1)
     {
         close(fd);
-        std::cout << "Socket closed." << std::endl;
+        std::cout << "SOCKET CLOSED." << std::endl;
     }
 }
 
@@ -46,5 +46,5 @@ void Socket::connect_to_server()
     }
 
     freeaddrinfo(ai_dest_ret);
-    std::cout << "Connected to server." << std::endl;
+    std::cout << "CONNECTED TO SERVER." << std::endl;
 }

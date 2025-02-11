@@ -49,36 +49,32 @@ int main()
     int flags = fcntl(server_fd, F_GETFL, 0);
     if (flags == -1) return 0;
     fcntl(server_fd, F_SETFL, flags | O_NONBLOCK);
-    // 서버에서 메시지를 받는 작업을 별도의 스레드에서 실행
+    // start thread
     std::thread network_recv_thread(recv_thread, server_fd);
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO &io = ImGui::GetIO();
-
-    // 한글 지원하는 폰트 파일 지정 (예: NotoSansKR-Regular.ttf)
+    /*
+    KOREAN
+    - Depending on where you start the program, it should be modified.
+    - If you start the program in 'build' directory, it causes an error.
+    */
     ImFont *font = io.Fonts->AddFontFromFileTTF("./font/NotoSansKR-Regular.ttf", 18.0f, nullptr, io.Fonts->GetGlyphRangesKorean());
 
     if (!font)
-    {
-        std::cerr << "폰트 로드 실패!" << std::endl;
-    }
-    //(void)io;
+        std::cerr << "Fail to load ./font/NotoSansKR-Regular.ttf" << std::endl;
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 330");
 
     io.Fonts->Build();
 
-    // 색상 스타일
     ImGui::StyleColorsDark();
 
-    // 메인 루프
     while (!glfwWindowShouldClose(window))
     {
-        // 입력 처리
         glfwPollEvents();
 
-        // ImGui 프레임 시작
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
@@ -92,27 +88,25 @@ int main()
 
         render_ui(server_fd);
 
-        // 렌더링
         ImGui::Render();
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-        // 프레임 버퍼 스왑
         glfwSwapBuffers(window);
     }
 
-    // 스레드 종료
+    // terminate thread
     running = false;
     if (network_recv_thread.joinable())
         network_recv_thread.join();
 
-    // ImGui 종료
+    // terminate ImGui
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
 
-    // GLFW 종료
+    // terminate GLFW
     glfwDestroyWindow(window);
     glfwTerminate();
 
@@ -131,5 +125,5 @@ void recv_thread(int server_fd)
         Network::receive_message(server_fd);
         std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
-    std::cout << "Thread done" << std::endl;
+    std::cout << "THREAD DONE" << std::endl;
 }

@@ -10,6 +10,9 @@ std::vector<std::string> room_list;
 std::unordered_map<std::string, std::vector<std::string>> room_members;
 std::queue<std::string> message_queue;
 
+std::string err_msg = "";
+bool show_err_popup = false;
+
 std::mutex queue_mutex;
 std::condition_variable queue_cv;
 

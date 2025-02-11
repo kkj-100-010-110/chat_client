@@ -32,6 +32,7 @@ void render_login_ui(int server_fd)
             Network::send_cmd_msg(server_fd, send_msg);
         }
     }
+    render_error_popup();
     ImGui::End();
 }
 
@@ -88,6 +89,7 @@ void render_chat_lobby_ui(int server_fd)
         Network::send_cmd_msg(server_fd, "LIST");
     }
 
+    render_error_popup();
     ImGui::End();
 }
 
@@ -187,4 +189,25 @@ void render_chat_ui(int server_fd)
     ImGui::EndChild();
 
     ImGui::End();
+}
+
+void render_error_popup()
+{
+    if (ChatManager::show_err_popup)
+    {
+        ImGui::OpenPopup("Error");
+    }
+
+    if (ImGui::BeginPopupModal("Error", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+    {
+        ImGui::Text("%s", ChatManager::err_msg.c_str());
+
+        if (ImGui::Button("OK"))
+        {
+            ChatManager::show_err_popup = false;
+            ImGui::CloseCurrentPopup();
+        }
+
+        ImGui::EndPopup();
+    }
 }

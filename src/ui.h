@@ -13,5 +13,6 @@ void render_ui(int server_fd);
 void render_login_ui(int server_fd);
 void render_chat_lobby_ui(int server_fd);
 void render_chat_ui(int server_fd);
+void render_error_popup();
 
 #endif//_UI_H_

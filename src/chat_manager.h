@@ -27,6 +27,9 @@ extern std::vector<std::string> room_list;
 extern std::unordered_map<std::string, std::vector<std::string>> room_members;
 extern std::queue<std::string> message_queue;
 
+extern std::string err_msg;
+extern bool show_err_popup;
+
 extern std::mutex queue_mutex;
 extern std::condition_variable queue_cv;
 

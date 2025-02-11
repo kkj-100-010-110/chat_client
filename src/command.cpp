@@ -6,7 +6,7 @@ Command::Command() { setup_command_map(); }
 void Command::setup_command_map()
 {
     command_map["LIST"] = [this](int server_fd, const std::string &msg) { handle_list(msg); };
-    command_map["ID"] = [this](int server_fd, const std::string &msg) { ChatManager::current_state = ChatManager::CHAT_LOBBY; };
+    command_map["ID "] = [this](int server_fd, const std::string &msg) { ChatManager::current_state = ChatManager::CHAT_LOBBY; };
     command_map["JOIN_SUCCESS"] = [this](int server_fd, const std::string &msg)
     {
         handle_join_success(msg);
@@ -16,7 +16,7 @@ void Command::setup_command_map()
     {
         Network::send_cmd_msg(server_fd, "LIST");
     };
-    command_map["MSG_SUCCESS"] = [this](int server_fd, const std::string &msg) { handle_msg_success(msg); };
+    command_map["MSG"] = [this](int server_fd, const std::string &msg) { handle_msg_success(msg); };
     command_map["MEMBER_SUCCESS"] = [this](int server_fd, const std::string &msg) { handle_member_success(msg); };
     command_map["INFO"] = [this](int server_fd, const std::string &msg) { handle_info(msg); };
     command_map["LEAVE_SUCCESS"] = [this](int server_fd, const std::string &msg) { handle_leave_success(msg); };
@@ -33,6 +33,7 @@ void Command::command_handler(int server_fd, const std::string& msg)
             return;
         }
     }
+    handle_err(msg);
 }
 
 void Command::handle_list(const std::string &message)
@@ -81,7 +82,7 @@ void Command::handle_open_success(int server_fd, const std::string& message)
 
 void Command::handle_msg_success(const std::string& message)
 {
-    std::string msg = message.substr(12);
+    std::string msg = message.substr(4);
     ChatManager::add_chat_message(msg);
 }
 
@@ -168,5 +169,6 @@ void Command::handle_room_delete(const std::string& message)
 
 void Command::handle_err(const std::string& message)
 {
-
+    ChatManager::err_msg = message;
+    ChatManager::show_err_popup = true;
 }

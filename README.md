@@ -9,7 +9,7 @@ build     : cmake --build build --config Debug<br/>
 run       : ./build/CHAT
 
 - How to change server ip and port number
-    1. Create .env file in root.
+    1. Create '.env' file in root.
     2. Write "SERVER_IP=[ip address]" and "SERVER_PORT=[port number]"
 <img width="803" alt="Screenshot 2025-02-12 at 7 07 13 AM" src="https://github.com/user-attachments/assets/4455a182-3459-47ca-8c23-fb81a98901f1" />
 <img width="802" alt="Screenshot 2025-02-12 at 7 07 52 AM" src="https://github.com/user-attachments/assets/51788870-a807-4573-82b4-2081f35389a1" />
